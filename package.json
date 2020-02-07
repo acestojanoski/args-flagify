@@ -1,0 +1,33 @@
+{
+  "name": "args-flagify",
+  "version": "1.0.0",
+  "description": "Build great cli with zero dependencies.",
+  "main": "dist",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "Aleksandar Stojanoski",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^13.7.0",
+    "typescript": "^3.7.5"
+  },
+  "homepage": "https://github.com/acestojanoski/args-flagify#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acestojanoski/args-flagify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acestojanoski/args-flagify/issues"
+  },
+  "keywords": [
+    "cli",
+    "flags",
+    "args",
+    "flagify"
+  ]
+}
