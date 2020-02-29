@@ -1,8 +1,8 @@
 # args-flagify
 
-> nodejs CLI helper with zero dependencies
+> Node.js CLI helper with zero dependencies
 
-Inspired by [Sindre Sorhus](https://github.com/sindresorhus) and his beautiful package [meow](https://github.com/sindresorhus/meow).
+Inspired by [Sindre Sorhus](https://github.com/sindresorhus) and his beautiful CLI helper [meow](https://github.com/sindresorhus/meow).
 
 ## Install
 
@@ -50,7 +50,7 @@ console.log(cli);
       '\n' +
       '    Examples\n' +
       '      $ your-cli firstInput --radius 2.45\n',
-    getVersion: [Function: getVersion]
+    version: 1.0.1
 }
 */
 ```
@@ -79,22 +79,26 @@ $ your-cli --version
 ### argsFlagify(help, flags)
 
 Returns an object with:
-- `inputs` (Array) - the inputs before the flags
-- `flags` (Object) - flags (the flag name is the key, the value is the flag value)
-- `help` (string) - the help text used with `--help`
-- `getVersion` (Function) - function to get the version of your CLI
+
+-   `inputs` (Array) - the inputs before the flags
+-   `flags` (Object) - flags (the key is the flag name, the value is the flag value of type: `string`, `number` or `boolean`)
+-   `help` (string) - the help text used with `--help`
+-   `version` (string) - the version of your CLI
 
 #### help
+
 Type: `string`
 
 The help text for your CLI.
 
 #### flags
+
 Type: `Object`
 
 The flags to parse. The key is the flag name, the value is the flag type: `number, string, boolean`.
 
 Example:
+
 ```
 argsFlagify(`
     help text

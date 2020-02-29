@@ -2,16 +2,17 @@ const path = require('path');
 const fs = require('fs');
 
 const getVersion = (directoryPath = path.dirname(module.parent.filename)) => {
-	const packageJsonPath = `${directoryPath}/package.json`;
+	const packageJsonPath = path.join(directoryPath, 'package.json');
 
 	if (fs.existsSync(packageJsonPath)) {
+		let version;
 		const packageJson = require(packageJsonPath);
 
 		if (packageJson && packageJson.version) {
-			return packageJson.version;
+			version = packageJson.version;
 		}
 
-		return;
+		return version;
 	}
 
 	const {root} = path.parse(directoryPath);
@@ -93,7 +94,6 @@ const parseFlag = (args, flags, parsedFlags) => {
 };
 
 const argsFlagify = (help, flags = {}) => {
-	// Validate arguments
 	if (!isString(help)) {
 		throw new TypeError('help argument should be a string');
 	}
@@ -103,6 +103,7 @@ const argsFlagify = (help, flags = {}) => {
 	}
 
 	const args = process.argv.slice(2);
+	const version = getVersion() || '';
 
 	if (args.length === 1 && args[0] === '--help') {
 		console.log(help);
@@ -110,11 +111,7 @@ const argsFlagify = (help, flags = {}) => {
 	}
 
 	if (args.length === 1 && args[0] === '--version') {
-		const version = getVersion();
-		if (version) {
-			console.log(version);
-		}
-
+		console.log(version);
 		process.exit();
 	}
 
@@ -137,7 +134,7 @@ const argsFlagify = (help, flags = {}) => {
 		inputs,
 		flags: parsedFlags,
 		help,
-		getVersion,
+		version,
 	};
 };
 

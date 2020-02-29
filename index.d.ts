@@ -1,24 +1,20 @@
-declare module "args-flagify" {
-	enum FlagTypes {
-		number = 'number',
-		string = 'string',
-		boolean = 'boolean'
-	}
+declare module 'args-flagify' {
+	type FlagType = 'number' | 'string' | 'boolean';
 
 	type Flags = {
-		[flagName: string]: FlagTypes;
+		[flagName: string]: FlagType;
 	};
 
-	type Flag = {
-		[flagName: string]: any;
+	type ParsedFlags = {
+		[flagName: string]: number | string | boolean;
 	};
 
 	type Result = {
 		inputs: string[];
-		flags: Flag;
+		flags: ParsedFlags;
 		help: string;
-		getVersion: function (): void;
-	}
+		version: string;
+	};
 
 	function argsFlagify(help: string, flags: Flags): Result;
 	export = argsFlagify;
