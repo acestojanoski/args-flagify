@@ -1,40 +1,40 @@
 {
-  "name": "args-flagify",
-  "version": "2.0.0",
-  "description": "Node.js CLI helper with zero dependencies",
-  "main": "index.js",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
-  "author": "Aleksandar Stojanoski",
-  "license": "MIT",
-  "homepage": "https://github.com/acestojanoski/args-flagify#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acestojanoski/args-flagify.git"
-  },
-  "bugs": {
-    "url": "https://github.com/acestojanoski/args-flagify/issues"
-  },
-  "keywords": [
-    "cli",
-    "flags",
-    "args",
-    "argv",
-    "flagify"
-  ],
-  "devDependencies": {
-    "xo": "^0.26.1"
-  },
-  "xo": {
-    "prettier": true,
-    "ignores": [
-      "**/*.ts"
-    ],
-    "rules": {
-      "unicorn/no-process-exit": "off",
-      "default-case": "off",
-      "no-unused-vars": "warn"
-    }
-  }
+	"name": "args-flagify",
+	"version": "2.1.0",
+	"description": "Node.js CLI helper with zero dependencies",
+	"main": "index.js",
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org"
+	},
+	"author": "Aleksandar Stojanoski",
+	"license": "MIT",
+	"homepage": "https://github.com/acestojanoski/args-flagify#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/acestojanoski/args-flagify.git"
+	},
+	"bugs": {
+		"url": "https://github.com/acestojanoski/args-flagify/issues"
+	},
+	"keywords": [
+		"cli",
+		"flags",
+		"args",
+		"argv",
+		"flagify"
+	],
+	"devDependencies": {
+		"xo": "^0.26.1"
+	},
+	"xo": {
+		"prettier": true,
+		"ignores": [
+			"**/*.ts"
+		],
+		"rules": {
+			"unicorn/no-process-exit": "off",
+			"default-case": "off",
+			"no-unused-vars": "warn"
+		}
+	}
 }

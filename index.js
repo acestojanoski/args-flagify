@@ -22,11 +22,9 @@ const getVersion = (directoryPath = path.dirname(module.parent.filename)) => {
 	}
 };
 
-const isString = value =>
-	Object.prototype.toString.call(value) === '[object String]';
-
-const isObject = value =>
-	Object.prototype.toString.call(value) === '[object Object]';
+const toString = value => Object.prototype.toString.call(value);
+const isString = value => toString(value) === '[object String]';
+const isObject = value => toString(value) === '[object Object]';
 
 const parseNumber = (value, flag) => {
 	const number = parseFloat(value);
@@ -39,7 +37,7 @@ const parseNumber = (value, flag) => {
 };
 
 const parseBoolean = (value, flag) => {
-	if (!value || value.startsWith('--')) {
+	if (!value || value.startsWith('--') || value.startsWith('-')) {
 		return true;
 	}
 
@@ -51,47 +49,6 @@ const parseBoolean = (value, flag) => {
 };
 
 const flagTypes = ['number', 'string', 'boolean'];
-
-const parseFlag = (args, flags, parsedFlags) => {
-	return flag => {
-		const indexOfFlag = args.indexOf(`--${flag}`);
-
-		if (indexOfFlag !== -1) {
-			const flagType = flags[flag];
-
-			if (!flagTypes.includes(flagType)) {
-				throw new TypeError(
-					`undefined type of flag. Flag types: ${flagTypes.toString()}`
-				);
-			}
-
-			const value = args[indexOfFlag + 1];
-
-			switch (flagType) {
-				case 'number': {
-					parsedFlags[flag] = parseNumber(value, flag);
-					break;
-				}
-
-				case 'string': {
-					if (!value) {
-						throw new TypeError(
-							`The value of --${flag} is not a string.`
-						);
-					}
-
-					parsedFlags[flag] = value;
-					break;
-				}
-
-				case 'boolean': {
-					parsedFlags[flag] = parseBoolean(value, flag);
-					break;
-				}
-			}
-		}
-	};
-};
 
 const argsFlagify = (help, flags = {}) => {
 	if (!isString(help)) {
@@ -117,12 +74,46 @@ const argsFlagify = (help, flags = {}) => {
 
 	const parsedFlags = {};
 
-	try {
-		Object.keys(flags).forEach(parseFlag(args, flags, parsedFlags));
-	} catch (error) {
-		console.error(error);
-		return;
-	}
+	Object.keys(flags).forEach(flag => {
+		let options = isObject(flags[flag]) ? flags[flag] : {type: flags[flag]};
+
+		const flagIndex = args.indexOf(`--${flag}`);
+		const aliasIndex = args.indexOf(`-${options.alias}`);
+
+		if (flagIndex !== -1 && aliasIndex !== -1) {
+			throw new TypeError(`Same flag --${flag} provided more then once.`);
+		}
+
+		const finalFlagIndex = flagIndex !== -1 ? flagIndex : aliasIndex;
+
+		if (finalFlagIndex === -1) {
+			return;
+		}
+
+		if (!flagTypes.includes(options.type)) {
+			throw new TypeError(
+				`undefined type of flag. Flag types: ${flagTypes.toString()}`
+			);
+		}
+
+		const value = args[finalFlagIndex + 1];
+
+		if (options.type === 'number') {
+			parsedFlags[flag] = parseNumber(value, flag);
+		}
+
+		if (options.type === 'string') {
+			if (!value) {
+				throw new TypeError(`The value of --${flag} is not a string.`);
+			}
+
+			parsedFlags[flag] = value;
+		}
+
+		if (options.type === 'boolean') {
+			parsedFlags[flag] = parseBoolean(value, flag);
+		}
+	});
 
 	const firstFlag = args.find(arg => arg.startsWith('--'));
 	const inputs = args.slice(

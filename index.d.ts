@@ -1,8 +1,13 @@
 declare module 'args-flagify' {
 	type FlagType = 'number' | 'string' | 'boolean';
 
+	type Flag = {
+		type: FlagType;
+		alias: string;
+	};
+
 	type Flags = {
-		[flagName: string]: FlagType;
+		[flagName: string]: Flag | FlagType;
 	};
 
 	type ParsedFlags = {

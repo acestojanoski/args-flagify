@@ -26,12 +26,16 @@ const cli = argsFlagify(`
       $ your-cli <input>
 
     Flags
-      --radius Enter your radius
+      --radius, -r Enter your radius
 
     Examples
       $ your-cli firstInput --radius 2.45
+      $ your-cli firstInput -r 2.45
 `, {
-    radius: 'number'
+    radius: {
+    	type: 'number',
+		alias: 'r'
+    }
 })
 
 console.log(cli);
@@ -62,10 +66,11 @@ $ your-cli --help
       $ your-cli <input>
 
     Flags
-      --radius Enter your radius
+      --radius, -r Enter your radius
 
     Examples
       $ your-cli firstInput --radius 2.45
+      $ your-cli firstInput -r 2.45
 ```
 
 ```
@@ -95,15 +100,29 @@ The help text for your CLI.
 
 Type: `Object`
 
-The flags to parse. The key is the flag name, the value is the flag type: `number, string, boolean`.
+The flags to parse.
+
+The key is the flag name.
+
+The value is the flag type: `number, string, boolean`, or an object with the flag options:
+
+-   `type`: Type of the value. (Possible values: `string`, `boolean`, `number`)
+-   `alias`: Short flag alias.
 
 Example:
 
 ```
 argsFlagify(`
+    ...
+
     help text
+
+    ...
 `, {
     radius: 'number',
-    firstName: 'string'
+    firstName: {
+		type: 'string',
+		alias: 'fn'
+	}
 });
 ```
