@@ -1,5 +1,11 @@
 # args-flagify
 
+[![CircleCI](https://circleci.com/gh/acestojanoski/args-flagify/tree/master.svg?style=svg)](https://circleci.com/gh/acestojanoski/args-flagify/tree/master)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![install size](https://packagephobia.now.sh/badge?p=args-flagify)](https://packagephobia.now.sh/result?p=args-flagify)
+[![Downloads](https://img.shields.io/npm/dm/args-flagify.svg)](https://npmjs.com/args-flagify)
+
 > Node.js CLI helper with zero dependencies
 
 Inspired by [Sindre Sorhus](https://github.com/sindresorhus) and his beautiful CLI helper [meow](https://github.com/sindresorhus/meow).
@@ -75,6 +81,7 @@ $ your-cli --help
 
 ```
 $ your-cli --version
+$ your-cli -v
 // output
 1.0.3
 ```
@@ -85,7 +92,7 @@ $ your-cli --version
 
 Returns an object with:
 
--   `inputs` (Array) - the inputs before the flags
+-   `inputs` (Array) - Non flag arguments
 -   `flags` (Object) - flags (the key is the flag name, the value is the flag value of type: `string`, `number` or `boolean`)
 -   `help` (string) - the help text used with `--help`
 -   `version` (string) - the version of your CLI
@@ -126,3 +133,6 @@ argsFlagify(`
 	}
 });
 ```
+
+## LICENSE
+MIT

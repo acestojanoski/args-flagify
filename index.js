@@ -18,7 +18,7 @@ const getVersion = (directoryPath = path.dirname(module.parent.filename)) => {
 	const {root} = path.parse(directoryPath);
 
 	if (root !== directoryPath) {
-		getVersion(path.resolve(directoryPath, '..'));
+		return getVersion(path.resolve(directoryPath, '..'));
 	}
 };
 
@@ -52,11 +52,11 @@ const flagTypes = ['number', 'string', 'boolean'];
 
 const argsFlagify = (help, flags = {}) => {
 	if (!isString(help)) {
-		throw new TypeError('help argument should be a string');
+		throw new TypeError('`help` argument should be a string');
 	}
 
 	if (!isObject(flags)) {
-		throw new TypeError('flags argument should be an object.');
+		throw new TypeError('`flags` argument should be an object.');
 	}
 
 	const args = process.argv.slice(2);
@@ -67,21 +67,29 @@ const argsFlagify = (help, flags = {}) => {
 		process.exit();
 	}
 
-	if (args.length === 1 && args[0] === '--version') {
+	if (args.length === 1 && (args[0] === '--version' || args[0] === '-v')) {
 		console.log(version);
 		process.exit();
 	}
 
 	const parsedFlags = {};
+	const aliases = [];
+	const unconvertedValues = [];
 
 	Object.keys(flags).forEach(flag => {
-		let options = isObject(flags[flag]) ? flags[flag] : {type: flags[flag]};
+		const options = isObject(flags[flag])
+			? flags[flag]
+			: {type: flags[flag]};
 
 		const flagIndex = args.indexOf(`--${flag}`);
 		const aliasIndex = args.indexOf(`-${options.alias}`);
 
 		if (flagIndex !== -1 && aliasIndex !== -1) {
 			throw new TypeError(`Same flag --${flag} provided more then once.`);
+		}
+
+		if (aliasIndex !== -1) {
+			aliases.push(options.alias);
 		}
 
 		const finalFlagIndex = flagIndex !== -1 ? flagIndex : aliasIndex;
@@ -97,6 +105,8 @@ const argsFlagify = (help, flags = {}) => {
 		}
 
 		const value = args[finalFlagIndex + 1];
+
+		unconvertedValues.push(value);
 
 		if (options.type === 'number') {
 			parsedFlags[flag] = parseNumber(value, flag);
@@ -115,11 +125,17 @@ const argsFlagify = (help, flags = {}) => {
 		}
 	});
 
-	const firstFlag = args.find(arg => arg.startsWith('--'));
-	const inputs = args.slice(
-		0,
-		firstFlag ? args.indexOf(firstFlag) : args.length
-	);
+	const inputs = args.filter(item => {
+		if (
+			aliases.includes(item.slice(1)) ||
+			unconvertedValues.includes(item) ||
+			Object.keys(flags).includes(item.slice(2))
+		) {
+			return false;
+		}
+
+		return true;
+	});
 
 	return {
 		inputs,

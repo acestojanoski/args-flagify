@@ -109,3 +109,5 @@ dist
 # custom
 .prettierrc
 .vscode/
+.circleci/
+__tests__/

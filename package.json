@@ -6,6 +6,9 @@
 	"publishConfig": {
 		"registry": "https://registry.npmjs.org"
 	},
+	"scripts": {
+		"test": "xo && ava"
+	},
 	"author": "Aleksandar Stojanoski",
 	"license": "MIT",
 	"homepage": "https://github.com/acestojanoski/args-flagify#readme",
@@ -24,6 +27,7 @@
 		"flagify"
 	],
 	"devDependencies": {
+		"ava": "^3.5.0",
 		"xo": "^0.26.1"
 	},
 	"xo": {
@@ -34,7 +38,14 @@
 		"rules": {
 			"unicorn/no-process-exit": "off",
 			"default-case": "off",
-			"no-unused-vars": "warn"
+			"no-unused-vars": "warn",
+			"no-negated-condition": "off",
+			"capitalized-comments": "off"
 		}
+	},
+	"ava": {
+		"files": [
+			"__tests__/**/*.test.js"
+		]
 	}
 }
