@@ -132,8 +132,8 @@ help text
 `, {
     radius: 'number',
     firstName: {
-		    type: 'string',
-		    alias: 'fn'
+        type: 'string',
+        alias: 'fn'
     },
     print: {
         type: 'boolean',
