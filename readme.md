@@ -18,31 +18,33 @@ $ npm install --save args-flagify
 
 ## Usage
 
-```
+```sh
 $ your-cli firstInput --radius 2.45
 ```
 
-```
+```js
 #!/usr/bin/env node
 
 const argsFlagify = require('args-flagify');
 
-const cli = argsFlagify(`
-    Usage
-      $ your-cli <input>
+const cli = argsFlagify(
+    `
+Usage
+  $ your-cli <input>
 
-    Flags
-      --radius, -r Enter your radius
+Options
+  --radius, -r  Enter your radius
 
-    Examples
-      $ your-cli firstInput --radius 2.45
-      $ your-cli firstInput -r 2.45
+Examples
+  $ your-cli firstInput --radius 2.45
+  $ your-cli firstInput -r 2.45
 `, {
     radius: {
-    	type: 'number',
-		alias: 'r'
-    }
-})
+        type: 'number',
+        alias: 'r',
+        default: 5,
+    },
+});
 
 console.log(cli);
 /* output
@@ -55,11 +57,12 @@ console.log(cli);
       '    Usage\n' +
       '      $ your-cli <input>\n' +
       '\n' +
-      '    Flags\n' +
-      '      --radius Enter your radius\n' +
+      '    Options\n' +
+      '      --radius, -r  Enter your radius\n' +
       '\n' +
       '    Examples\n' +
-      '      $ your-cli firstInput --radius 2.45\n',
+      '      $ your-cli firstInput --radius 2.45\n' +
+      '      $ your-cli firstInput -r 2.45',
     version: 1.0.1
 }
 */
@@ -67,22 +70,22 @@ console.log(cli);
 
 ```
 $ your-cli --help
-// output
-    Usage
-      $ your-cli <input>
 
-    Flags
-      --radius, -r Enter your radius
+Usage
+  $ your-cli <input>
 
-    Examples
-      $ your-cli firstInput --radius 2.45
-      $ your-cli firstInput -r 2.45
+Options
+  --radius, -r  Enter your radius
+
+Examples
+  $ your-cli firstInput --radius 2.45
+  $ your-cli firstInput -r 2.45
 ```
 
 ```
 $ your-cli --version
 $ your-cli -v
-// output
+
 1.0.3
 ```
 
@@ -115,22 +118,27 @@ The value is the flag type: `number, string, boolean`, or an object with the fla
 
 -   `type`: Type of the value. (Possible values: `string`, `boolean`, `number`)
 -   `alias`: Short flag alias.
+-   `default`: Default value if the flag is not provided. Type: `number, string, boolean`.
 
 Example:
 
-```
+```js
 argsFlagify(`
-    ...
+...
 
-    help text
+help text
 
-    ...
+...
 `, {
     radius: 'number',
     firstName: {
-		type: 'string',
-		alias: 'fn'
-	}
+		    type: 'string',
+		    alias: 'fn'
+    },
+    print: {
+        type: 'boolean',
+        default: true,
+    },
 });
 ```
 

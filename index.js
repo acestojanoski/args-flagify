@@ -1,5 +1,8 @@
+'use strict';
+
 const path = require('path');
 const fs = require('fs');
+const {flagTypes} = require('./constants');
 
 const getVersion = (directoryPath = path.dirname(module.parent.filename)) => {
 	const packageJsonPath = path.join(directoryPath, 'package.json');
@@ -48,8 +51,6 @@ const parseBoolean = (value, flag) => {
 	throw new TypeError(`The value of --${flag} is not a boolean.`);
 };
 
-const flagTypes = ['number', 'string', 'boolean'];
-
 const argsFlagify = (help, flags = {}) => {
 	if (!isString(help)) {
 		throw new TypeError('`help` argument should be a string');
@@ -94,17 +95,21 @@ const argsFlagify = (help, flags = {}) => {
 
 		const finalFlagIndex = flagIndex !== -1 ? flagIndex : aliasIndex;
 
-		if (finalFlagIndex === -1) {
-			return;
-		}
-
 		if (!flagTypes.includes(options.type)) {
 			throw new TypeError(
 				`undefined type of flag. Flag types: ${flagTypes.toString()}`
 			);
 		}
 
-		const value = args[finalFlagIndex + 1];
+		if (finalFlagIndex === -1 && options.default === undefined) {
+			return;
+		}
+
+		let value = `${options.default}`;
+
+		if (finalFlagIndex !== -1) {
+			value = args[finalFlagIndex + 1];
+		}
 
 		unconvertedValues.push(value);
 

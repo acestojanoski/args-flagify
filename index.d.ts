@@ -4,6 +4,7 @@ declare module 'args-flagify' {
 	type Flag = {
 		type: FlagType;
 		alias: string;
+		default: number | string | boolean;
 	};
 
 	type Flags = {
