@@ -110,4 +110,5 @@ dist
 .prettierrc
 .vscode/
 .circleci/
-__tests__/
+test/
+.editorconfig
